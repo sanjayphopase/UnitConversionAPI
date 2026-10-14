@@ -17,7 +17,7 @@ A REST API built with **ASP.NET Core .NET 10** to convert Length, Temperature, a
 - Visual Studio 2026, Visual Studio Code, or another C# IDE
 - Postman for API testing
 
-Check the installed SDK using Powershell on Win:
+Check the installed SDK:
 
 ```bash
 dotnet --version
@@ -36,12 +36,20 @@ dotnet run
 Use the Postman to call the bellow api.
 
 ## API Usage
+Postman Testing – Unit Conversion API
+Steps
+1. Open Postman.
+2. Click New → HTTP Request.
+3. Select method POST.
+4. Enter URL: http://localhost:5285/api/Conversion/Convert
+5. Open Body → raw → JSON.
+6. Paste the input JSON below and click Send.
 
 ### Convert Units
 
 **Method:** `POST`
 
-**Route:** ` http://localhost:5285/api/Conversion/Convert` (confirm the exact route in your controller)
+**Route:** `http://localhost:5285/api/Conversion/Convert`
 
 Example request:
 
@@ -54,17 +62,27 @@ Example request:
 }
 ```
 
-Example response (actual JSON property names depend on your DTOs and serializer configuration):
+```json
+{
+  "category": "Temperature",
+  "fromUnit": "celsius",
+  "toUnit": "fahrenheit",
+  "value": 100
+}
+```
 
 ```json
 {
-  "category": "Length",
-  "fromUnit": "kilometer",
-  "toUnit": "meter",
-  "inputValue": 5,
-  "result": 5000
+  "category": "Weight",
+  "fromUnit": "kilogram",
+  "toUnit": "pound",
+  "value": 10
 }
 ```
+
+
+
+
 
 ### Supported Categories and Units
 
@@ -118,22 +136,7 @@ Conversion factors and formulas are stored in dictionaries inside the correspond
 The global exception handler logs exceptions and returns consistent error responses. Expected invalid requests should return HTTP 400, while unexpected errors should return HTTP 500 with a generic message. Detailed exception information should remain in server logs, not API responses.
 
 ## Design Trade-offs
-
-- **Dictionary-based conversion:** Simple and efficient for a fixed unit set, but supported units and aliases must be explicitly added.
-- **Base-unit approach:** Avoids writing a separate formula for every source-target pair.
 - **Single endpoint:** Provides one consistent API contract for all categories; separate endpoints could be useful if categories later require different request shapes.
-- **Strategy Pattern:** Makes the design easier to extend and test, at the cost of additional classes compared with a simple `switch`.
 - **Hardcoded rules:** Avoids database complexity but requires code changes and redeployment to update formulas.
 - **Global exception handling:** Centralizes errors, but request validation should still catch invalid input early and produce clear client errors.
 
-## Future Improvements
-
-- Add unit and integration tests.
-- Add DTO validation and stable error codes.
-- Support unit abbreviations and aliases.
-- Add structured logging and monitoring.
-- Add CI/CD automation for builds and tests.
-
-## License
-
-Created for technical assessment and demonstration purposes.

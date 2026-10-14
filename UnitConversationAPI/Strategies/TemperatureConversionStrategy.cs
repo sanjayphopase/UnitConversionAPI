@@ -34,7 +34,8 @@ namespace UnitConversationAPI.Strategies
             if (kelvin < 0)
                 throw new ArgumentException("Temperature cannot be below absolute zero.");
 
-            decimal result = fromKelvin(kelvin);
+            decimal result = Math.Round(fromKelvin(kelvin),2,
+                MidpointRounding.AwayFromZero);
 
             return new ConversionResponseDto
             {

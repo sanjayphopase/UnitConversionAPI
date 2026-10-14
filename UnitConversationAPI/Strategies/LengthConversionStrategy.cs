@@ -31,7 +31,7 @@ namespace UnitConversationAPI.Strategies
             if (!_fromMeter.TryGetValue(requestDto.ToUnit.ToLowerInvariant(), out var fromMeter))
                 throw new ArgumentException("Unsupported target length unit.");
 
-            decimal result = requestDto.Value * toMeter * fromMeter;
+            decimal result = Math.Round(requestDto.Value * toMeter * fromMeter,2,MidpointRounding.AwayFromZero);
 
             return new ConversionResponseDto
             {

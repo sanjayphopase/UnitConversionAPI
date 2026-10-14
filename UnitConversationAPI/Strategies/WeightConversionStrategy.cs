@@ -34,7 +34,8 @@ namespace UnitConversationAPI.Strategies
             if (!_fromKilogram.TryGetValue(requestDto.ToUnit.ToLowerInvariant(), out var fromKilogram))
                 throw new ArgumentException("Unsupported target weight unit.");
 
-            decimal result = requestDto.Value * toKilogram * fromKilogram;
+            decimal result = Math.Round(requestDto.Value * toKilogram * fromKilogram,
+                2,MidpointRounding.AwayFromZero);
 
             return new ConversionResponseDto
             {
